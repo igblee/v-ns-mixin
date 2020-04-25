@@ -1,7 +1,8 @@
+
 const __map = new Map()
 const prefix = '$_'
 let __Vue = null
-
+let __globalBuiltIns = []
 function hasOwn (data, key) {
   return Object.hasOwnProperty.call(data, key)
 }
@@ -21,7 +22,7 @@ function mixinBind (fn, ns) {
   }
 }
 
-function getSource (ns) {
+function getMixinContext (ns) {
   return __map.get(ns)
 }
 
@@ -54,15 +55,19 @@ function observe (ns, context) {
   return proxy
 }
 
-export default function install (Vue) {
-  if (install.installed) {
+// use $router/$route/$store/$nextTick directly
+const defaultBuiltInExternalObj = ['$route', '$router', '$store', '$nextTick', '$refs', '$set', '$delete','$emit', '$on', '$once', '$off', ]
 
+export default function install (Vue, options= {}) {
+  if (install.installed) {
+    return void(0)
   } else {
     install.installed = true
     __Vue = Vue
+    __globalBuiltIns = options?.builtIns || []
     Vue.mixin({
       beforeCreate () {
-        this.$ns = getSource
+        this.$ns = getMixinContext
       },
     })
     Object.defineProperty(Vue.prototype, '$ns ', {
@@ -74,13 +79,14 @@ export default function install (Vue) {
   }
 }
 
-export function namespaceMixin (ns, mixin) {
+export function namespaceMixin (ns, mixin, options = {}) {
   const nData = Object.create(null)
   const nComputed = Object.create(null)
   const nWatch = Object.create(null)
   const nMethods = Object.create(null)
   const nHooks = Object.create(null)
   let context = Object.create(null)
+  const scopedBuiltIns = options?.builtIns || []
   context.$ext = () => {}
   if (mixin.data) {
     const rawData = mixin.data()
@@ -161,6 +167,12 @@ export function namespaceMixin (ns, mixin) {
   return {
     data () {
       context.$ext = external.bind(this)
+      const builtIns = [...new Set([...defaultBuiltInExternalObj, ...__globalBuiltIns, ...scopedBuiltIns]), ]
+      builtIns.forEach((key) => {
+        if(this[key]) {
+          context[key] = this[key]
+        }
+      })
       const proxyContext = observe(ns, context)
       __map.set(ns, proxyContext)
       // so that the dom will update when context change

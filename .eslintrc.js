@@ -1,10 +1,3 @@
-/*
- * @Author: Volankey@gmail.com
- * @Company: Tusimple
- * @Date: 2019-10-28 16:19:56
- * @LastEditors: Jiwen.bai
- * @LastEditTime: 2019-11-13 16:00:52
- */
 module.exports = {
   root: true,
   env: {
@@ -12,7 +5,6 @@ module.exports = {
   },
   extends: ["@vue/standard", "plugin:vue/recommended"],
   rules: {
-    /** #NIMBUS-TPL#eslint-rule#START */
     "no-console": "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
     "comma-dangle": [
@@ -53,7 +45,6 @@ module.exports = {
         "x-invalid-end-tag": false
       }
     ]
-    /** #NIMBUS-TPL#eslint-rule#END */
   },
   parserOptions: {
     parser: "babel-eslint"

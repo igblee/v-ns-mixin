@@ -81,15 +81,10 @@ export function namespaceMixin (ns, mixin) {
   const nMethods = Object.create(null)
   const nHooks = Object.create(null)
   let context = Object.create(null)
-  context.$ext = () => {
-  }
-  let proxyContext = observe(ns, context)
-  __map.set(ns, proxyContext)
+  context.$ext = () => {}
   if (mixin.data) {
     const rawData = mixin.data()
     context = { ...context, ...rawData, }
-    proxyContext = observe(ns, context)
-    __map.set(ns, proxyContext)
     Object.keys(rawData).forEach((key) => {
       nData[`${ns}${prefix}${key}`] = rawData[key]
     })
@@ -110,8 +105,6 @@ export function namespaceMixin (ns, mixin) {
           get: rawComputed[key].get,
           set: rawComputed[key].set,
         })
-        proxyContext = observe(ns, context)
-        __map.set(ns, proxyContext)
       } else {
         rawComputed[key] = mixinBind(rawComputed[key], ns)
         Object.defineProperty(context, key, {
@@ -119,8 +112,6 @@ export function namespaceMixin (ns, mixin) {
           configurable: true,
           get: rawComputed[key],
         })
-        proxyContext = observe(ns, context)
-        __map.set(ns, proxyContext)
       }
       nComputed[`${ns}${prefix}${key}`] = rawComputed[key]
     })
@@ -131,8 +122,6 @@ export function namespaceMixin (ns, mixin) {
       rawMethods[key] = mixinBind(rawMethods[key], ns)
       nMethods[`${ns}${prefix}${key}`] = mixinBind(rawMethods[key], ns)
       context[key] = rawMethods[key]
-      proxyContext = observe(ns, context)
-      __map.set(ns, proxyContext)
     })
   }
   if (mixin.watch) {
@@ -172,6 +161,8 @@ export function namespaceMixin (ns, mixin) {
   return {
     data () {
       context.$ext = external.bind(this)
+      const proxyContext = observe(ns, context)
+      __map.set(ns, proxyContext)
       // so that the dom will update when context change
       __Vue.observable(context)
       return nData

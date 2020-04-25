@@ -1,2 +1,3 @@
 # v-ns-mixin
-namespace mixin plugin base on vue
+
+namespace mixin plugin bases on vue

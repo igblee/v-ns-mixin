@@ -1,4 +1,3 @@
-
 const __map = new Map()
 const prefix = '$_'
 let __Vue = null

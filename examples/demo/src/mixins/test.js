@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import ns, { namespaceMixin } from '../../../../index'
+import ns, { namespaceMixin } from '../../../../dist/main'
 
 Vue.use(ns)
 

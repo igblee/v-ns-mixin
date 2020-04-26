@@ -1,13 +1,14 @@
 {
-  "name": "v-ns-mixin",
+  "name": "@glennlee/v-ns-mixin",
   "version": "0.0.1",
   "description": "namespace mixin plugin bases on vue ",
-  "main": "index.js",
+  "main": "dist/main.js",
   "directories": {
     "example": "examples",
     "test": "test"
   },
   "scripts": {
+    "build": "rollup --config rollup.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,5 +25,21 @@
   "bugs": {
     "url": "https://github.com/igblee/v-ns-mixin/issues"
   },
-  "homepage": "https://github.com/igblee/v-ns-mixin#readme"
+  "homepage": "https://github.com/igblee/v-ns-mixin#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "babel-eslint": "^10.1.0",
+    "eslint-config-rollup": "^0.1.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "rollup": "^2.7.2",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-terser": "^5.3.0",
+    "standard": "^14.3.3"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.8.7"
+  }
 }

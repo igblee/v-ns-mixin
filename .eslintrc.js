@@ -1,10 +1,11 @@
 module.exports = {
   root: true,
-  "extends": ["rollup", "eslint-config-standard" ],
+  "extends": ["rollup", "standard", "eslint:recommended" ],
   env: {
     node: true
   },
   rules: {
+    "prettier/prettier": 0,
     "no-console": "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
     "comma-dangle": [

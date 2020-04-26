@@ -11,11 +11,11 @@ export default {
     format: 'es',
     dir: path.resolve(__dirname, 'dist'),
     name: 'vNSMixin',
-    plugins: [terser()]
+    plugins: [terser(), ],
   },
   watch: {
     clearScreen: true,
-    include: ['src/**',],
+    include: ['src/**', ],
   },
-  plugins: [babel(),],
+  plugins: [babel(), ],
 }
